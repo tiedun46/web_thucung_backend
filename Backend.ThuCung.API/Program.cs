@@ -9,6 +9,18 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ThuCungDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnect")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        }
+        );
+});
+
 
 var app = builder.Build();
 
@@ -17,6 +29,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors();
 }
 
 app.UseHttpsRedirection();

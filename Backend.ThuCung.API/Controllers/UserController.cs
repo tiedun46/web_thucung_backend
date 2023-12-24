@@ -81,8 +81,6 @@ namespace Backend.ThuCung.API.Controllers
             return NoContent();
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Tuser>> PostTuser(Tuser tuser)
         {
@@ -90,6 +88,7 @@ namespace Backend.ThuCung.API.Controllers
           {
               return Problem("Entity set 'ThuCungDbContext.Tusers'  is null.");
           }
+            tuser.Iduser = Guid.NewGuid();
             _context.Tusers.Add(tuser);
             try
             {
@@ -129,6 +128,29 @@ namespace Backend.ThuCung.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<Tuser>> LoginAPI(LoginDTO model)
+        {
+            if (_context.Tusers == null)
+            {
+                return BadRequest("Entity set 'VanPhongPhamDbContext.Tusers'  is null.");
+            }
+            if (string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest("Email or Password  is null.");
+            }
+            var user = await _context.Tusers.FirstOrDefaultAsync(x => x.Email == model.Email && x.Password == model.Password);
+            if (user == null)
+            {
+                return BadRequest("Tài khoản hoặc mật khẩu không đúng!");
+            }
+            else
+            {
+                return user;
+            }
+        }
+
 
         private bool TuserExists(Guid id)
         {

@@ -90,6 +90,7 @@ namespace Backend.ThuCung.API.Controllers
           {
               return Problem("Entity set 'ThuCungDbContext.TsanPhams'  is null.");
           }
+            tsanPham.IdsanPham = Guid.NewGuid();
             _context.TsanPhams.Add(tsanPham);
             try
             {

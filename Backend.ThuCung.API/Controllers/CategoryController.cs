@@ -49,8 +49,6 @@ namespace Backend.ThuCung.API.Controllers
             return tcategory;
         }
 
-        // PUT: api/Category/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTcategory(Guid id, Tcategory tcategory)
         {
@@ -80,8 +78,6 @@ namespace Backend.ThuCung.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Category
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Tcategory>> PostTcategory(Tcategory tcategory)
         {
@@ -89,6 +85,7 @@ namespace Backend.ThuCung.API.Controllers
           {
               return Problem("Entity set 'ThuCungDbContext.Tcategories'  is null.");
           }
+            tcategory.Idcategory = Guid.NewGuid();
             _context.Tcategories.Add(tcategory);
             try
             {
